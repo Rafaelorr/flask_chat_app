@@ -45,11 +45,22 @@ def login():
   if request.method == "POST":
       naam = request.form.get("naam")
       wachtwoord = request.form.get("wachtwoord")
+      # zoek op in database
+      # check wachtwoord
       if naam == "test" and wachtwoord == "test":
           session["naam"] = naam
           print(f"gebruiksnaam: {naam}, wachtwoord: {wachtwoord}")
           return redirect(url_for("home"))
   return render_template("login.html")
+
+@app.route("/create_acount", methods=["POST","GET"])
+def create_acount():
+    session.clear()
+    if request.method == "POST":
+        naam = request.form.get("gebruikersnaam")
+        wachtwooord = request.form.get("wachtwoord")
+        # voeg toe aan database
+    return render_template('create_acount.html')
 
 @app.route("/")
 def redrict():
