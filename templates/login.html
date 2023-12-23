@@ -1,0 +1,18 @@
+<html lang="nl">
+  <head>
+    <meta charset="UTf-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <form action="http://127.0.0.1:5000/login" method="post">
+      <label for="naam">gebruiksnaam</label><br>
+      <input type="text" name="naam" id="naam" placeholder="gebruiksnaam" required><br><br>
+      <label for="wachtwoord">wachtwoord</label><br>
+      <input type="password" name="wachtwoord" id="wachtwoord" placeholder="wachtwoord" required><br><br>
+      <button type="submit">login</button>
+    </form>
+  </body>
+</html>
