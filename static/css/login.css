@@ -6,3 +6,18 @@ button:hover{
     background-color: rgb(160, 212, 229);
     border-color: rgb(141, 209, 232);
 }
+a{
+    font-size: 15px;
+}
+label{
+    font-size: smaller;
+    color: gray;
+}
+body{
+    background-color: lightcyan;
+}
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
