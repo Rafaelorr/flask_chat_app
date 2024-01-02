@@ -6,13 +6,13 @@
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <form action="{{url_for(login)}}" method="post">
+    <form action="http://192.168.76.202:5000/login" method="post">
       <label for="naam">gebruiksnaam</label><br>
       <input type="text" name="naam" id="naam" placeholder="gebruiksnaam" required><br><br>
       <label for="wachtwoord">wachtwoord</label><br>
       <input type="password" name="wachtwoord" id="wachtwoord" placeholder="wachtwoord" required><br><br>
       <button type="submit">login</button>
     </form>
-    <a href="{{url_for(create_acount)}}">maak acount</a>
+    <a href="http://192.168.76.202:5000/create_acount">maak acount</a>
   </body>
 </html>

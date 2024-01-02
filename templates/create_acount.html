@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="static/css/create_acount.css">
   </head>
   <body>
-    <form action="{{url_for(create_acount)}}" method="post">
+    <form action="http://192.168.76.202:5000/create_acount" method="post">
       <input type="text" name="gebruikersnaam" id="gebruikersnaam" required placeholder="gebruikersnaam"><br>
       <input type="password" name="wachtwoord" id="wachtwoord" placeholder="wachtwoord" required placeholder="wachtwoord"><br>
       <input type="email" name="email" id="email" required placeholder="email"><br>
