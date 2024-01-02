@@ -1,25 +1,32 @@
 from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
-from string import ascii_uppercase
+from string import ascii_uppercase,ascii_lowercase
+
+def random_letters(wachtwoord_items:list) -> list:
+  for _ in range(randint(1,99)):
+      if randint(1,2) == 1:
+          wachtwoord_items.append(choice(ascii_uppercase))
+      elif randint(1,2) == 2:
+          wachtwoord_items.append(choice(ascii_lowercase))
+  return wachtwoord_items
 
 def sterk_wachtwoord() -> str:
   wachtwoord = ''
   wachtwoord_items = []
-  for _ in range(randint(10,99)):
-      wachtwoord_items.append(choice(ascii_uppercase))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
-  for _ in range(randint(1,99)):
-      wachtwoord_items.append(choice(ascii_uppercase))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
-  for _ in range(randint(1,99)):
-      wachtwoord_items.append(choice(ascii_uppercase))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
-  for _ in range(randint(1,99)):
-      wachtwoord_items.append(choice(ascii_uppercase))
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(str(randint(1,999999999)))
-  for _ in range(randint(1,99)):
-      wachtwoord_items.append(choice(ascii_uppercase))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   for wachtwoord_item in wachtwoord_items:
       wachtwoord += wachtwoord_item
   return wachtwoord
@@ -49,7 +56,7 @@ def login():
       # check wachtwoord
       if naam == "test" and wachtwoord == "test":
           session["naam"] = naam
-          print(f"gebruiksnaam: {naam}, wachtwoord: {wachtwoord}")
+          print(f"DEBUG: gebruiksnaam: {naam}, wachtwoord: {wachtwoord}")
           return redirect(url_for("home"))
   return render_template("login.html")
 
@@ -60,12 +67,14 @@ def create_acount():
       naam = request.form.get("gebruikersnaam")
       wachtwooord = request.form.get("wachtwoord")
       email = request.form.get("email")
+      # verzend verfie email
+      # als op de link in de email wordt geclickt dan:
       # voeg toe aan database
   return render_template('create_acount.html')
 
 @app.route("/")
 def redrict():
-  return redirect(url_for("login"))
+  return redirect(url_for("home"))
 
 @app.route("/home", methods=["POST", "GET"])
 def home():
@@ -143,4 +152,4 @@ def disconnect():
   send({"naam": naam, "message": "has left the room"}, to=room)
 
 if __name__ == "__main__":
-    socketio.run(app,host="0.0.0.0", debug=True)
+  socketio.run(app,host="0.0.0.0", debug=True)
