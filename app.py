@@ -94,10 +94,11 @@ def redrict():
 @app.route("/home", methods=["POST", "GET"])
 def home():
  if request.method == "POST":
-    try:
-      naam = session["naam"]
-    except:
-      naam = request.form.get("naam")
+    if request.form.get("naam") == "":
+      try:
+        naam = session["naam"]
+      except:
+        naam = request.form.get("naam")
     code = request.form.get("code")
     room_id = request.form.get("room_id")
     join = request.form.get("join", False)
@@ -170,4 +171,4 @@ def disconnect():
   send({"naam": naam, "message": "has left the room"}, to=room)
 
 if __name__ == "__main__":
-  socketio.run(app,host="0.0.0.0", debug=True)
+  socketio.run(app,host="0.0.0.0",debug=True)

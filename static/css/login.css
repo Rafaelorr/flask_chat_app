@@ -1,17 +1,21 @@
 button{
+    margin-left: 80px;
     background-color: whitesmoke;
     border-color: whitesmoke;
 }  
 button:hover{
+    margin-left: 80px;
     background-color: rgb(160, 212, 229);
     border-color: rgb(141, 209, 232);
 }
 a{
+    margin-left: 80px;
     font-size: 15px;
 }
 label{
+    margin-left: 80px;
     font-size: smaller;
-    color: gray;
+    color: black;
 }
 body{
     background-color: lightcyan;
@@ -20,4 +24,16 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+input{
+    width: 150;
+    height: 30;
+    margin-left: 80px;
+}
+input::placeholder{
+    height: 25;
+}
+form{
+    margin-top: 90px;
+    margin-left: 100px;
 }
