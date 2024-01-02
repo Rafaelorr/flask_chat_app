@@ -24,19 +24,26 @@ def sterk_wachtwoord() -> str:
   wachtwoord_items = []
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(str(randint(1,999999999)))
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   for wachtwoord_item in wachtwoord_items:
-      wachtwoord += wachtwoord_item
+    wachtwoord += wachtwoord_item
   return wachtwoord
 
 app = Flask(__name__)

@@ -3,18 +3,6 @@
   align-items: center;
   justify-content: center;
 }
-.message-box {
-  border-color: black;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 10px;
-  background-color: rgb(208, 228, 235);
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  width: 80vw;
-  align-items: stretch;
-}
 .messages {
   overflow-y: scroll;
   flex: 1;
@@ -44,9 +32,6 @@ h2 {
 }
 body{
   background-color: lightcyan;
-}
-a{
-  font-size: 15px;
 }
 label{
   font-size: smaller;

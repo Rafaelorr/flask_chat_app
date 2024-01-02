@@ -30,14 +30,6 @@ button:hover{
 #message {
     flex: 1;
 }
-body{
-    background-color: lightcyan;
-}
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .text {
     display: flex;
     flex-direction: row;
