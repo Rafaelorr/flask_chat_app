@@ -6,6 +6,5 @@ account create page 2
 login styeem 1 # redirct gebruiker als die op home komt zonder in te loggen
 bettere css 3 # ontwerp
 publish 4
-mobil app 5
-mobil app naar website commatie 5
+user database 2
 "de cijfers toonen de volgorde waar je features maakt"
