@@ -94,7 +94,7 @@ def redrict():
 
 @app.route("/home", methods=["POST", "GET"])
 def home():
- if request.method == "POST":
+  if request.method == "POST":
     if request.form.get("naam") == "":
       try:
         naam = session["naam"]
@@ -123,7 +123,7 @@ def home():
     session["room"] = room
     session["naam"] = naam
     return redirect(url_for("room"))
- return render_template("home.html")
+  return render_template("home.html")
 
 @app.route("/doc")
 def doc():
