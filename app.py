@@ -2,6 +2,7 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase
+import database_funcients
 
 def random_letters(wachtwoord_items:list) -> list:
   for _ in range(randint(1,99)):
@@ -67,10 +68,10 @@ def login():
   if request.method == "POST":
     naam = request.form.get("naam")
     wachtwoord = request.form.get("wachtwoord")
-    # zoek op in database
-    # check wachtwoord
-    if naam == "test" and wachtwoord == "test":
+    conn = database_funcients.connect_to_database()
+    if database_funcients.check_wachtwoord(conn,naam,wachtwoord):
       session["naam"] = naam
+      database_funcients.close_connection(conn)
       return redirect(url_for("home"))
   return render_template("login.html")
 
@@ -83,7 +84,9 @@ def create_acount():
     email = request.form.get("email")
     # verzend verfie email
     # als op de link in de email wordt geclickt dan:
-    # voeg toe aan database
+    conn = database_funcients.connect_to_database()
+    database_funcients.voeg_wachtwoord_toe(conn,naam,wachtwooord)
+    database_funcients.close_connection(conn)
   return render_template('create_acount.html')
 
 @app.route("/")
