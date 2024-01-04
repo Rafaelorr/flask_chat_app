@@ -88,7 +88,9 @@ def create_acount():
 
 @app.route("/")
 def redrict():
-  return redirect(url_for("home"))
+  if session != session.clear():
+    return redirect(url_for("home"))
+  return redirect(url_for("login"))
 
 @app.route("/home", methods=["POST", "GET"])
 def home():
