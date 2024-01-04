@@ -71,7 +71,6 @@ def login():
     # check wachtwoord
     if naam == "test" and wachtwoord == "test":
       session["naam"] = naam
-      print(f"DEBUG: gebruiksnaam: {naam}, wachtwoord: {wachtwoord}")
       return redirect(url_for("home"))
   return render_template("login.html")
 
@@ -98,7 +97,7 @@ def home():
       try:
         naam = session["naam"]
       except:
-        naam = request.form.get("naam")
+        return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
     code = request.form.get("code")
     room_id = request.form.get("room_id")
     join = request.form.get("join", False)
