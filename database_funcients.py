@@ -12,6 +12,6 @@ def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
   # als wachtwoord = opgeschozenten dan return True
   pass
 
-def voeg_wachtwoord_toe(conn,naam:str,wachtwoord:str) -> bool:
+def voeg_gebruikers_toe(conn,naam:str,wachtwoord:str) -> bool:
   # voeg naam en wachtwoord toe aan database
   pass
