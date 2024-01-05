@@ -98,7 +98,8 @@ def redrict():
 @app.route("/home", methods=["POST", "GET"])
 def home():
   if request.method == "POST":
-    if request.form.get("naam") == "":
+    naam = request.form.get("naam")
+    if naam == "":
       try:
         naam = session["naam"]
       except:
