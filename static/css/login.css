@@ -2,6 +2,8 @@ button{
     margin-left: 80px;
     background-color: whitesmoke;
     border-color: whitesmoke;
+    width: 150;
+    height: 30;
 }  
 button:hover{
     margin-left: 80px;
