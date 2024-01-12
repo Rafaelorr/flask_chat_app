@@ -6,10 +6,12 @@ def connect_to_database():
 
 def close_connection(conn):
   conn.close()
+  return
 
 def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
   # zoek de database voor het wachtwoord van de naam
-  database_wachtwoord = conn.execute('')
+  cur = conn.cursor()
+  database_wachtwoord = cur.execute(f"SELECT wachtwoord FROM gebruikers WHERE name='{naam}'")
   if database_wachtwoord == wachtwoord:
     return True
   return False
