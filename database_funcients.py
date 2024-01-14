@@ -11,12 +11,18 @@ def close_connection(conn):
 def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
   # zoek de database voor het wachtwoord van de naam
   cur = conn.cursor()
-  database_wachtwoord = cur.execute(f"SELECT wachtwoord FROM gebruikers WHERE name='{naam}'")
+  cur.execute(f"SELECT wachtwoord FROM gebruikers WHERE naam='{naam}'")
+  database_wachtwoord = cur.fetchall()
+  # maak database_wachtwoord eerste item van eerst tupel
+  # database_wachtwoord = str(database_wachtwoord)
   if database_wachtwoord == wachtwoord:
     return True
   return False
 
-def voeg_gebruikers_toe(conn,naam:str,wachtwoord:str):
+def voeg_gebruikers_toe(con,naam:str,wachtwoord:str) -> None:
   # voeg naam en wachtwoord toe aan database
-  conn.execute('')
+  cursor = con.cursor()
+  data = (naam,wachtwoord)
+  cursor.execute("INSERT INTO gebruikers (naam,wachtwoord) VALUES (?, ?)", data)
+  con.commit()
   return
