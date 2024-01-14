@@ -9,6 +9,6 @@ wachtwoord = 'test_2'
 
 cursor.execute(f"SELECT wachtwoord FROM gebruikers WHERE naam='{naam}'")
 
-result = cursor.fetchall()
+result = cursor.fetchone()
 print(result)
 conn.close()

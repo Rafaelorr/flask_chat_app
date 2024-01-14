@@ -12,8 +12,8 @@ def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
   # zoek de database voor het wachtwoord van de naam
   cur = conn.cursor()
   cur.execute(f"SELECT wachtwoord FROM gebruikers WHERE naam='{naam}'")
-  database_wachtwoord = cur.fetchall()
-  # maak database_wachtwoord eerste item van eerst tupel
+  database_wachtwoord = cur.fetchone()
+  # maak database_wachtwoord eerste item tupel
   # database_wachtwoord = str(database_wachtwoord)
   if database_wachtwoord == wachtwoord:
     return True
