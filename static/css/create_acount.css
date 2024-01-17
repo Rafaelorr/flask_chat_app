@@ -4,6 +4,9 @@ body{
 button{
     background-color: whitesmoke;
     border-color: whitesmoke;
+    margin-left: 80px;
+    width: 150;
+    height: 30;
 }
 button:hover{
     background-color: rgb(160, 212, 229);
@@ -13,4 +16,16 @@ button:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+input{
+    width: 150;
+    height: 30;
+    margin-left: 80px;
+}
+input::placeholder{
+    height: 25;
+}
+form{
+    margin-top: 90px;
+    margin-left: 100px;
 }
