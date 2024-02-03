@@ -23,19 +23,42 @@ def random_letters(wachtwoord_items:list) -> list:
 def sterk_wachtwoord() -> str:
   wachtwoord = ''
   wachtwoord_items = []
+  for _ in range(randint(1,999)):
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  if randint(1,10) > 7:
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
+  if randint(1,20) == randint(1,20):
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
+  if randint(1,2) == 1:
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
