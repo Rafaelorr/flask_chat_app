@@ -106,8 +106,10 @@ def create_acount():
     wachtwooord = request.form.get("wachtwoord")
     email = request.form.get("email")
     # verzend verfie email
-    # als op de link in de email wordt geclickt dan:
     conn = database.connect_to_database()
+    # if verfie email send succesfull:
+      # database.voeg_email_toe(conn,email)
+    # als op de link in de email wordt geclickt dan:
     database.voeg_gebruikers_toe(conn,naam,wachtwooord)
     database.close_connection(conn)
   return render_template('create_acount.html')
