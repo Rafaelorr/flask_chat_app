@@ -19,6 +19,13 @@ def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
     return True
   return False
 
+def voeg_email_toe(con,email:str):
+  cur = con.cursor()
+  data = (email)
+  cur.execute("INSERT INTO emails (email) VALUES (?)", data)
+  con.commit()
+  return
+
 def voeg_gebruikers_toe(con,naam:str,wachtwoord:str) -> None:
   # voeg naam en wachtwoord toe aan database
   cursor = con.cursor()
