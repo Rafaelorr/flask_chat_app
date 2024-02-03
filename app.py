@@ -62,7 +62,7 @@ def generate_unique_code(length:int) -> str:
       break
   return code
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=["POST","GET"])
 def login():
   session.clear()
   if request.method == "POST":
