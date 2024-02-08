@@ -8,16 +8,10 @@ def close_connection(conn):
   conn.close()
   return
 
-def check_wachtwoord(conn,naam:str,wachtwoord:str) -> bool:
-  # zoek de database voor het wachtwoord van de naam
-  cur = conn.cursor()
-  cur.execute(f"SELECT wachtwoord FROM gebruikers WHERE naam='{naam}'")
-  database_wachtwoord = cur.fetchone()
-  # maak database_wachtwoord eerste item tupel
-  # database_wachtwoord = str(database_wachtwoord)
-  if database_wachtwoord == wachtwoord:
-    return True
-  return False
+def query_to_string(results:list) -> str:
+  results = results[0]
+  results = results[1]
+  results = str(results)
 
 def voeg_email_toe(con,email:str):
   cur = con.cursor()
