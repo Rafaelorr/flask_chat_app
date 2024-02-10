@@ -1,29 +1,27 @@
 import sqlite3
 
 def connect_to_database():
-  conn = sqlite3.connect('database.db')
+  conn:sqlite3.Connection = sqlite3.connect('database.db')
   return conn
 
-def close_connection(conn):
+def close_connection(conn:sqlite3.Connection) -> None:
   conn.close()
-  return
 
-def query_to_string(results:list) -> str:
+def query_to_wachtwooord(results:list) -> str:
   results = results[0]
   results = results[1]
   results = str(results)
+  return results
 
-def voeg_email_toe(con,email:str):
-  cur = con.cursor()
-  data = (email)
+def voeg_email_toe(con:sqlite3.Cursor,email:str):
+  cur:sqlite3.Cursor = con.cursor()
+  data:tuple = (email)
   cur.execute("INSERT INTO emails (email) VALUES (?)", data)
   con.commit()
-  return
 
-def voeg_gebruikers_toe(con,naam:str,wachtwoord:str) -> None:
+def voeg_gebruikers_toe(con:sqlite3.Connection,naam:str,wachtwoord:str) -> None:
   # voeg naam en wachtwoord toe aan database
-  cursor = con.cursor()
-  data = (naam,wachtwoord)
-  cursor.execute("INSERT INTO gebruikers (naam,wachtwoord) VALUES (?, ?)", data)
+  cursor:sqlite3.Cursor = con.cursor()
+  data:tuple = (naam,wachtwoord)
+  cursor.execute("INSERT INTO gebruikers (naam,wachtwoord) VALUES (?,?)", data)
   con.commit()
-  return
