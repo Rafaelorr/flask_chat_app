@@ -1,6 +1,6 @@
 import sqlite3
 
-def connect_to_database():
+def connect_to_database() -> sqlite3.Connection:
   conn:sqlite3.Connection = sqlite3.connect('database.db')
   return conn
 
@@ -8,12 +8,11 @@ def close_connection(conn:sqlite3.Connection) -> None:
   conn.close()
 
 def query_to_wachtwooord(results:list) -> str:
-  results = results[0]
-  results = results[1]
-  results = str(results)
+  results:tuple = results[0]
+  results:str = results[1]
   return results
 
-def voeg_email_toe(con:sqlite3.Cursor,email:str):
+def voeg_email_toe(con:sqlite3.Connection,email:str) -> None:
   cur:sqlite3.Cursor = con.cursor()
   data:tuple = (email)
   cur.execute("INSERT INTO emails (email) VALUES (?)", data)
