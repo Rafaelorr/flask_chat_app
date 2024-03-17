@@ -37,47 +37,35 @@ def sterk_wachtwoord() -> str:
   wachtwoord_items:list = []
   for _ in range(randint(1,999)):
     random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+  wachtwoord_items.append(str(randint(1,999999999)))
+  for _ in range(7):
+    random_letters(wachtwoord_items)
   if randint(1,10) > 7:
     random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+  for _ in range(4):
+    random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
+  wachtwoord_items.append(str(randint(1,999999999)))
   if randint(1,20) == randint(1,20):
     random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+    wachtwoord_items.append(str(randint(1,999999999)))
+  wachtwoord_items.append(str(randint(1,999999999)))
+  for _ in range(4):
+    random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
   if randint(1,2) == 1:
     random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+    wachtwoord_items.append(str(randint(1,999999999)))
+  for _ in range(10):
+    wachtwoord_items.append(str(randint(1,999999999)))
+  for _ in range(7):
+    random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+  for _ in range(8):
+    random_letters(wachtwoord_items)
   wachtwoord_items.append(str(randint(1,999999999)))
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
+  for _ in range(3):
+    random_letters(wachtwoord_items)
   for wachtwoord_item in wachtwoord_items:
     wachtwoord += wachtwoord_item
   return wachtwoord
