@@ -97,10 +97,7 @@ def home():
   if request.method == "POST":
     naam:str = request.form.get("naam")
     if naam == "":
-      try:
-        naam = session["naam"]
-      except:
-        return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
+      return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
     code:str = request.form.get("code")
     room_id:str = request.form.get("room_id")
     join = request.form.get("join", False)
