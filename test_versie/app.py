@@ -96,8 +96,8 @@ def login():
     conn:sqlite3.Connection = database.connect_to_database()
     cur:sqlite3.Cursor = conn.cursor()
     cur.execute(f"SELECT * FROM gebruikers WHERE naam=? AND wachtwoord=?",(naam,wachtwoord))
-    database_wachtwoord:list = cur.fetchone()
-    database_wachtwoord:str = database.query_to_string(database_wachtwoord)
+    database_wachtwoord:tuple = cur.fetchone()
+    database_wachtwoord:str = database.query_to_wachtwooord(database_wachtwoord)
     if database_wachtwoord == wachtwoord:
       session["naam"] = naam
       database.close_connection(conn)
