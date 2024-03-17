@@ -86,24 +86,6 @@ def generate_unique_code(length:int) -> str:
       break
   return code
 
-
-@app.route("/create_acount", methods=["POST","GET"])
-def create_acount():
-  session.clear()
-  if request.method == "POST":
-    naam:str = request.form.get("gebruikersnaam")
-    wachtwooord:str = request.form.get("wachtwoord")
-    email:str = request.form.get("email")
-    # verzend verfie email
-    # wanneer link in de email is geclickt dan:
-    conn = database.connect_to_database()
-    # if verfie email send succesfull:
-      # database.voeg_email_toe(conn,email)
-    # als op de link in de email wordt geclickt dan:
-    database.voeg_gebruikers_toe(conn,naam,wachtwooord)
-    database.close_connection(conn)
-  return render_template('create_acount.html')
-
 @app.route("/")
 def redrict():
   if session != session.clear():
