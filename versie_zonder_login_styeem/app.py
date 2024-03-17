@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
-from string import ascii_uppercase,ascii_lowercase
+from string import ascii_uppercase,ascii_lowercase,punctuation
 
 def random_letters(wachtwoord_items:list) -> list:
   for _ in range(randint(1,99)):
@@ -11,12 +11,24 @@ def random_letters(wachtwoord_items:list) -> list:
         wachtwoord_items.append(choice(ascii_uppercase))
       if randint(1,2) == 2:
         wachtwoord_items.append(choice(ascii_lowercase))
+      if randint(1,3) == 3:
+        wachtwoord_items.append(choice(punctuation))
     elif randint(1,2) == 2:
       wachtwoord_items.append(choice(ascii_lowercase))
       if randint(1,2) == 1:
         wachtwoord_items.append(choice(ascii_uppercase))
       if randint(1,2) == 2:
         wachtwoord_items.append(choice(ascii_lowercase))
+      if randint(1,3) == 3:
+        wachtwoord_items.append(choice(punctuation))
+    elif randint(1,3) == 3:
+      wachtwoord_items.append(choice(punctuation))
+      if randint(1,2) == 1:
+        wachtwoord_items.append(choice(ascii_uppercase))
+      if randint(1,2) == 2:
+        wachtwoord_items.append(choice(ascii_lowercase))
+      if randint(1,3) == 3:
+        wachtwoord_items.append(choice(punctuation))
   return wachtwoord_items
 
 # functie om de secret key te generaten
