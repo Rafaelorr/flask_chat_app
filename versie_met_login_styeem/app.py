@@ -3,6 +3,7 @@ from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase
 import database_funcients as database
+import sqlite3
 
 def random_letters(wachtwoord_items:list) -> list:
   for _ in range(randint(1,99)):
@@ -20,22 +21,46 @@ def random_letters(wachtwoord_items:list) -> list:
         wachtwoord_items.append(choice(ascii_lowercase))
   return wachtwoord_items
 
+# functie om de secret key te generaten
 def sterk_wachtwoord() -> str:
-  wachtwoord = ''
-  wachtwoord_items = []
+  wachtwoord:str = ''
+  wachtwoord_items:list = []
+  for _ in range(randint(1,999)):
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  if randint(1,10) > 7:
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
+  if randint(1,20) == randint(1,20):
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
+  if randint(1,2) == 1:
+    random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
+  random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
   random_letters(wachtwoord_items)
@@ -51,25 +76,29 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = sterk_wachtwoord()
 socketio = SocketIO(app)
 
-rooms = {}
+rooms:dict = {}
 
 def generate_unique_code(length:int) -> str:
   while True:
-    code = ""
+    code:str = ""
     for _ in range(length):
       code += choice(ascii_uppercase)
     if code not in rooms:
       break
   return code
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=["POST","GET"])
 def login():
   session.clear()
   if request.method == "POST":
-    naam = request.form.get("naam")
-    wachtwoord = request.form.get("wachtwoord")
-    conn = database.connect_to_database()
-    if database.check_wachtwoord(conn,naam,wachtwoord):
+    naam:str = request.form.get("naam")
+    wachtwoord:str = request.form.get("wachtwoord")
+    conn:sqlite3.Connection = database.connect_to_database()
+    cur:sqlite3.Cursor = conn.cursor()
+    cur.execute(f"SELECT * FROM gebruikers WHERE naam=? AND wachtwoord=?",(naam,wachtwoord))
+    database_wachtwoord:tuple = cur.fetchone()
+    database_wachtwoord:str = database.query_to_wachtwooord(database_wachtwoord)
+    if database_wachtwoord == wachtwoord:
       session["naam"] = naam
       database.close_connection(conn)
       return redirect(url_for("home"))
@@ -79,12 +108,15 @@ def login():
 def create_acount():
   session.clear()
   if request.method == "POST":
-    naam = request.form.get("gebruikersnaam")
-    wachtwooord = request.form.get("wachtwoord")
-    email = request.form.get("email")
+    naam:str = request.form.get("gebruikersnaam")
+    wachtwooord:str = request.form.get("wachtwoord")
+    email:str = request.form.get("email")
     # verzend verfie email
-    # als op de link in de email wordt geclickt dan:
+    # wanneer link in de email is geclickt dan:
     conn = database.connect_to_database()
+    # if verfie email send succesfull:
+      # database.voeg_email_toe(conn,email)
+    # als op de link in de email wordt geclickt dan:
     database.voeg_gebruikers_toe(conn,naam,wachtwooord)
     database.close_connection(conn)
   return render_template('create_acount.html')
@@ -98,14 +130,14 @@ def redrict():
 @app.route("/home", methods=["POST", "GET"])
 def home():
   if request.method == "POST":
-    naam = request.form.get("naam")
+    naam:str = request.form.get("naam")
     if naam == "":
       try:
         naam = session["naam"]
       except:
         return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
-    code = request.form.get("code")
-    room_id = request.form.get("room_id")
+    code:str = request.form.get("code")
+    room_id:str = request.form.get("room_id")
     join = request.form.get("join", False)
     create = request.form.get("create", False)
     if not naam:
@@ -154,7 +186,7 @@ def message(data):
 @socketio.on("connect")
 def connect(auth):
   room = session.get("room")
-  naam = session.get("naam")
+  naam:str = session.get("naam")
   if not room or not naam:
     return
   if room not in rooms:

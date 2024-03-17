@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>maak een acount</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/create_acount.css">
+  </head>
+  <body>
+    <form action="http://192.168.76.202:5000/create_acount" method="post">
+      <input type="text" name="gebruikersnaam" id="gebruikersnaam" required placeholder="gebruikersnaam" maxlength="95"><br>
+      <input type="password" name="wachtwoord" id="wachtwoord" required placeholder="wachtwoord" maxlength="100"><br>
+      <input type="email" name="email" id="email" required placeholder="email" maxlength="200"><br>
+      <button type="submit">maak acount</button><br>
+    </form>
+  </body>
+</html>
