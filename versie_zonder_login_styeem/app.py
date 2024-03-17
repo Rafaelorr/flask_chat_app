@@ -2,7 +2,6 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase
-import sqlite3
 
 def random_letters(wachtwoord_items:list) -> list:
   for _ in range(randint(1,99)):
