@@ -2,7 +2,6 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase
-import database_funcients as database
 import sqlite3
 
 def random_letters(wachtwoord_items:list) -> list:
@@ -87,22 +86,6 @@ def generate_unique_code(length:int) -> str:
       break
   return code
 
-@app.route("/login", methods=["POST","GET"])
-def login():
-  session.clear()
-  if request.method == "POST":
-    naam:str = request.form.get("naam")
-    wachtwoord:str = request.form.get("wachtwoord")
-    conn:sqlite3.Connection = database.connect_to_database()
-    cur:sqlite3.Cursor = conn.cursor()
-    cur.execute(f"SELECT * FROM gebruikers WHERE naam=? AND wachtwoord=?",(naam,wachtwoord))
-    database_wachtwoord:list = cur.fetchone()
-    database_wachtwoord:str = database.query_to_string(database_wachtwoord)
-    if database_wachtwoord == wachtwoord:
-      session["naam"] = naam
-      database.close_connection(conn)
-      return redirect(url_for("home"))
-  return render_template("login.html")
 
 @app.route("/create_acount", methods=["POST","GET"])
 def create_acount():
