@@ -7,10 +7,9 @@ def connect_to_database() -> sqlite3.Connection:
 def close_connection(conn:sqlite3.Connection) -> None:
   conn.close()
 
-def query_to_wachtwooord(results:list) -> str:
-  results:tuple = results[0]
-  results:str = results[1]
-  return results
+def query_to_wachtwooord(results:tuple) -> str:
+  database_watchtwoord:str = results[2]
+  return database_watchtwoord
 
 def voeg_email_toe(con:sqlite3.Connection,email:str) -> None:
   cur:sqlite3.Cursor = con.cursor()
