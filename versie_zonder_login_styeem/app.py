@@ -85,6 +85,14 @@ def generate_unique_code(length:int) -> str:
       break
   return code
 
+def overwrite_memory() -> None:
+  a:list = []
+  b:list = []
+  for i in range(1,9999999999):
+    if randint(1,2) ==  1:
+      a.append(randint(1,9999) + i)
+    b.append(randint(1,999999999999) + 2 * i)
+
 @app.route("/")
 def redrict():
   if session != session.clear():
@@ -170,3 +178,5 @@ def disconnect():
 
 if __name__ == "__main__":
   socketio.run(app,host="0.0.0.0",debug=True)
+  del rooms
+  overwrite_memory()
