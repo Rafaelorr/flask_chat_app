@@ -29,6 +29,7 @@ def random_letters(wachtwoord_items:list) -> list:
         wachtwoord_items.append(choice(ascii_lowercase))
       if randint(1,3) == 3:
         wachtwoord_items.append(choice(punctuation))
+      wachtwoord_items.append(choice(punctuation)) 
   return wachtwoord_items
 
 # functie om de secret key te generaten
@@ -179,4 +180,5 @@ def disconnect():
 if __name__ == "__main__":
   socketio.run(app,host="0.0.0.0",debug=True)
   del rooms
-  overwrite_memory()
+  for _ in range(75):
+    overwrite_memory()
