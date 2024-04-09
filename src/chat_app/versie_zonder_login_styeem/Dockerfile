@@ -1,6 +1,6 @@
 FROM python:3.8-slim-buster
 
-WORKDIR /versie_zonder_login_styeem
+WORKDIR /chat_app_versie_zonder_login_styeem
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
