@@ -5,6 +5,9 @@ from string import ascii_uppercase,ascii_lowercase,punctuation
 import sqlite3
 
 def create_database():
+  """
+  Maak een database toe voor om de berichten op te slaan.
+  """
   connection:sqlite3.Connection = sqlite3.connect('rooms.db')
   cursor:sqlite3.Cursor = connection.cursor()
   cursor.execute('CREATE TABLE IF NOT EXISTS rooms (id TEXT PRIMARY KEY, data TEXT)')
@@ -12,6 +15,9 @@ def create_database():
   connection.close()
 
 def save_rooms_to_database(rooms:dict):
+  """
+  Deze functie slaat de berichten op in een database.
+  """
   connection:sqlite3.Connection = sqlite3.connect('rooms.db')
   cursor:sqlite3.Cursor = connection.cursor()
   cursor.execute('DELETE FROM rooms')
@@ -21,6 +27,9 @@ def save_rooms_to_database(rooms:dict):
   connection.close()
 
 def load_rooms_from_database(rooms:dict):
+  """
+  Voeg de data van de database toe aan de rooms dict.
+  """
   connection:sqlite3.Connection = sqlite3.connect('rooms.db')
   cursor:sqlite3.Cursor = connection.cursor()
   cursor.execute('SELECT id, data FROM rooms')
@@ -30,6 +39,9 @@ def load_rooms_from_database(rooms:dict):
   connection.close()
 
 def random_letters(wachtwoord_items:list) -> list:
+  """
+  Deze functie is een onderdeel van de sterk_wachtwoord functie.
+  """
   for _ in range(randint(1,99)):
     if randint(1,2) == 1:
       wachtwoord_items.append(choice(ascii_uppercase))
@@ -59,6 +71,9 @@ def random_letters(wachtwoord_items:list) -> list:
   return wachtwoord_items
 
 def sterk_wachtwoord() -> str:
+  """
+  Deze functie maakt een random secret key.
+  """
   wachtwoord:str = ''
   wachtwoord_items:list = []
   for _ in range(randint(1,999)):
@@ -98,9 +113,9 @@ def sterk_wachtwoord() -> str:
 
 create_database()
 
-app = Flask(__name__)
+app:Flask = Flask(__name__)
 app.config["SECRET_KEY"] = sterk_wachtwoord()
-socketio = SocketIO(app)
+socketio:SocketIO = SocketIO(app)
 
 
 rooms:dict = {}
@@ -108,6 +123,9 @@ rooms:dict = {}
 load_rooms_from_database(rooms)
 
 def generate_unique_code(length:int) -> str:
+  """
+  Deze functie genereert een unikie code die dient als room id als de gebruik geen room id heeft geven bij het maken van een room.
+  """
   while True:
     code:str = ""
     for _ in range(length):
@@ -129,30 +147,37 @@ def overwrite_memory() -> None:
 
 @app.route("/")
 def redrict():
+  """
+  Dit is de backend code voor de redrict route.
+  Die functie wordt gebruik om de gebruiker de redricten naar de home route.
+  """
   if session != session.clear():
     return redirect(url_for("home"))
   return redirect(url_for("login"))
 
 @app.route("/home", methods=["POST", "GET"])
 def home():
+  """
+  Dit is de backend code voor de home pagina.
+  """
   if request.method == "POST":
     naam:str = request.form.get("naam")
     if naam == "":
       return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
     code:str = request.form.get("code")
     room_id:str = request.form.get("room_id")
-    join = request.form.get("join", False)
-    create = request.form.get("create", False)
+    join:bool|str = request.form.get("join", False)
+    create:bool|str = request.form.get("create", False)
     if not naam:
       return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
     if join != False and not code:
       return render_template("home.html", error="Please enter a room code.", code=code, name=naam)
-    room = code
+    room:str = code
     if create != False:
       if room_id == "":
-        room = generate_unique_code(4)
+        room:str = generate_unique_code(4)
       else:
-        room = room_id
+        room:str = room_id
       if room not in rooms:
         rooms[room] = {"members": 0, "messages": []}
       elif room in rooms:
@@ -166,21 +191,30 @@ def home():
 
 @app.route("/doc")
 def doc():
+  """
+  Dit is de backend code voor de documentatie pagina.
+  """
   return render_template('doc.html')
 
 @app.route("/room")
 def room():
-  room = session.get("room")
+  """
+  Dit is de backend code van de room route.
+  """
+  room:str = session.get("room")
   if room is None or session.get("naam") is None or room not in rooms:
     return redirect(url_for("home"))
   return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
 @socketio.on("message")
 def message(data):
-  room = session.get("room")
+  """
+  Deze methode wordt gebruikt om een bericht te verzenden.
+  """
+  room:str = session.get("room")
   if room not in rooms:
     return
-  content = {
+  content:dict[str:any] = {
     "naam": session.get("naam"),
     "message": data["data"]}
   send(content, to=room)
@@ -188,7 +222,10 @@ def message(data):
 
 @socketio.on("connect")
 def connect(auth):
-  room = session.get("room")
+  """
+  De methode wordt gebruikt om de gebruiker te verbinden.
+  """
+  room:str = session.get("room")
   naam:str = session.get("naam")
   if not room or not naam:
     return
@@ -201,8 +238,11 @@ def connect(auth):
 
 @socketio.on("disconnect")
 def disconnect():
-  room = session.get("room")
-  naam = session.get("naam")
+  """
+  Deze methode wordt gebruikt om de gebruiker zijn verbinding te sluiten.
+  """
+  room:str = session.get("room")
+  naam:str = session.get("naam")
   leave_room(room)
   if room in rooms:
     rooms[room]["members"] -= 1
