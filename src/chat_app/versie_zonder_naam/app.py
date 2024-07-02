@@ -2,41 +2,6 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase,punctuation
-import sqlite3
-
-def create_database():
-  """
-  Maak een database toe voor om de berichten op te slaan.
-  """
-  connection:sqlite3.Connection = sqlite3.connect('rooms.db')
-  cursor:sqlite3.Cursor = connection.cursor()
-  cursor.execute('CREATE TABLE IF NOT EXISTS rooms (id TEXT PRIMARY KEY, data TEXT)')
-  connection.commit()
-  connection.close()
-
-def save_rooms_to_database(rooms:dict):
-  """
-  Deze functie slaat de berichten op in een database.
-  """
-  connection:sqlite3.Connection = sqlite3.connect('rooms.db')
-  cursor:sqlite3.Cursor = connection.cursor()
-  cursor.execute('DELETE FROM rooms')
-  for room_id, room_data in rooms.items():
-    cursor.execute('INSERT INTO rooms (id, data) VALUES (?, ?)', (room_id, str(room_data)))
-  connection.commit()
-  connection.close()
-
-def load_rooms_from_database(rooms:dict):
-  """
-  Voeg de data van de database toe aan de rooms dict.
-  """
-  connection:sqlite3.Connection = sqlite3.connect('rooms.db')
-  cursor:sqlite3.Cursor = connection.cursor()
-  cursor.execute('SELECT id, data FROM rooms')
-  for row in cursor.fetchall():
-    room_id, room_data = row
-    rooms[room_id] = eval(room_data)
-  connection.close()
 
 def random_letters(wachtwoord_items:list) -> list:
   """
@@ -111,16 +76,11 @@ def sterk_wachtwoord() -> str:
     wachtwoord += wachtwoord_item
   return wachtwoord
 
-create_database()
-
 app:Flask = Flask(__name__)
 app.config["SECRET_KEY"] = sterk_wachtwoord()
 socketio:SocketIO = SocketIO(app)
 
-
 rooms:dict = {}
-
-load_rooms_from_database(rooms)
 
 def generate_unique_code(length:int) -> str:
   """
@@ -161,7 +121,7 @@ def home():
   Dit is de backend code voor de home pagina.
   """
   if request.method == "POST":
-    naam:str = request.form.get("naam")
+    naam:str = "anymous"
     if naam == "":
       return render_template("home.html", error="Please enter a naam.", code=code, name=naam)
     code:str = request.form.get("code")
@@ -247,11 +207,10 @@ def disconnect():
   if room in rooms:
     rooms[room]["members"] -= 1
     if rooms[room]["members"] <= 0:
-      save_rooms_to_database(rooms)
+      del rooms[room]
   send({"naam": naam, "message": "has left the room"}, to=room)
 
 if __name__ == "__main__":
   socketio.run(app,host="0.0.0.0",debug=True)
-  save_rooms_to_database(rooms)
   for _ in range(10):
     overwrite_memory()
