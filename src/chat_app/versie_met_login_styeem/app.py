@@ -1,76 +1,70 @@
-from flask import Flask,render_template,request,session,redirect,url_for
-from flask_socketio import join_room,leave_room,send,SocketIO
 from random import randint,choice
 from string import ascii_uppercase,ascii_lowercase
-import database_funcients as database
 import sqlite3
+from flask import Flask,render_template,request,session,redirect,url_for
+from flask_socketio import join_room,leave_room,send,SocketIO
+import database_funcients as database
 
 def random_letters(wachtwoord_items:list) -> list:
-  for _ in range(randint(1,99)):
-    if randint(1,2) == 1:
-      wachtwoord_items.append(choice(ascii_uppercase))
-      if randint(1,2) == 1:
-        wachtwoord_items.append(choice(ascii_uppercase))
-      if randint(1,2) == 2:
-        wachtwoord_items.append(choice(ascii_lowercase))
-    elif randint(1,2) == 2:
-      wachtwoord_items.append(choice(ascii_lowercase))
-      if randint(1,2) == 1:
-        wachtwoord_items.append(choice(ascii_uppercase))
-      if randint(1,2) == 2:
-        wachtwoord_items.append(choice(ascii_lowercase))
-  return wachtwoord_items
+    """
+    Deze functie is een onderdeel van de sterk_wachtwoord functie.
+    """
+    for _ in range(randint(1,99)):
+        if randint(1,2) == 1:
+            wachtwoord_items.append(choice(ascii_uppercase))
+            if randint(1,2) == 1:
+                wachtwoord_items.append(choice(ascii_uppercase))
+            else:
+                wachtwoord_items.append(choice(ascii_lowercase))
+        else:
+            wachtwoord_items.append(choice(ascii_lowercase))
+            if randint(1,2) == 1:
+                wachtwoord_items.append(choice(ascii_uppercase))
+            else:
+                wachtwoord_items.append(choice(ascii_lowercase))
+    return wachtwoord_items
 
 # functie om de secret key te generaten
 def sterk_wachtwoord() -> str:
-  wachtwoord:str = ''
-  wachtwoord_items:list = []
-  for _ in range(randint(1,999)):
-    random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  if randint(1,10) > 7:
-    random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  wachtwoord_items.append(choice(['snelle','trage','vuile','grappige']))
-  if randint(1,20) == randint(1,20):
-    random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  wachtwoord_items.append(choice(['blauwe','groene','gele','witte','zwarte']))
-  if randint(1,2) == 1:
-    random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  wachtwoord_items.append(choice(['panda','held','nijlpaard','man','pikachu']))
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  wachtwoord_items.append(str(randint(1,999999999)))
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  random_letters(wachtwoord_items)
-  for wachtwoord_item in wachtwoord_items:
-    wachtwoord += wachtwoord_item
-  return wachtwoord
+    """
+    Deze functie maakt een random secret key.
+    """
+    wachtwoord:str = ''
+    wachtwoord_items:list = []
+
+    for _ in range(randint(1,999)):
+        random_letters(wachtwoord_items)
+
+    for _ in range(8):
+        random_letters(wachtwoord_items)
+
+    if randint(1,10) > 7:
+        random_letters(wachtwoord_items)
+
+    for _ in range(5):
+        random_letters(wachtwoord_items)
+
+    if randint(1,20) == randint(1,20):
+        random_letters(wachtwoord_items)
+
+    for _ in range(5):
+        random_letters(wachtwoord_items)
+
+    if randint(1,2) == 1:
+        random_letters(wachtwoord_items)
+
+    for _ in range(11):
+        random_letters(wachtwoord_items)
+
+    wachtwoord_items.append(str(randint(1,999999999)))
+
+    for _ in range(3):
+        random_letters(wachtwoord_items)
+
+    for wachtwoord_item in wachtwoord_items:
+        wachtwoord += wachtwoord_item
+
+    return wachtwoord
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = sterk_wachtwoord()
@@ -79,13 +73,13 @@ socketio = SocketIO(app)
 rooms:dict = {}
 
 def generate_unique_code(length:int) -> str:
-  while True:
-    code:str = ""
-    for _ in range(length):
-      code += choice(ascii_uppercase)
-    if code not in rooms:
-      break
-  return code
+    while True:
+        code:str = ""
+        for _ in range(length):
+            code += choice(ascii_uppercase)
+        if code not in rooms:
+            break
+    return code
 
 @app.route("/login", methods=["POST","GET"])
 def login():
